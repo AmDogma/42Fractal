@@ -24,7 +24,8 @@
 
 /* Begin PBXFileReference section */
 		24A0858F26762893001E9F01 /* Fractol */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Fractol; sourceTree = BUILT_PRODUCTS_DIR; };
-		24A0859226762893001E9F01 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; };
+		24A0859226762893001E9F01 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; wrapsLines = 0; };
+		24ED73C6267A949100A14637 /* fractol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fractol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -58,6 +59,7 @@
 			isa = PBXGroup;
 			children = (
 				24A0859226762893001E9F01 /* main.c */,
+				24ED73C6267A949100A14637 /* fractol.h */,
 			);
 			path = Fractol;
 			sourceTree = "<group>";
