@@ -1,88 +1,102 @@
 #include "fractol.h"
-	
-void mondelbrot(double moveX, double moveY, t_mlx *data)
+
+void	my_mlx_img(t_pic *pic, int x, int y, int color)
 {
-  //each iteration, it calculates: new = old*old + c, where c is a constant and old starts at current pixel
-  double cRe, cIm;           //real and imaginary part of the constant c, determinate shape of the Julia Set
-  double newRe, newIm, oldRe, oldIm;   //real and imaginary parts of new and old
-  int maxIterations = 300; //after how much iterations the function should stop
+	char	*dst;
 
-  //pick some values for the constant c, this determines the shape of the Julia Set
-  cRe = -0.7;
-  cIm = 0.27015;
+	dst = pic->addr + (y * pic->line_length + x * (pic->bits_per_pixel / 8)); 
+	*(unsigned int*)dst = color;
+}
 
-  //loop through every pixel
-  for(int y = 0; y < 600; y++)
-  for(int x = 0; x < 800; x++)
-  {
-    //calculate the initial real and imaginary part of z, based on the pixel location and zoom and position values
-    newRe = 1.5 * (x - 800 / 2) / (0.5 * data->zoom * 800) + (moveX/data->zoom);
-    newIm = (y - 600 / 2) / (0.5 * data->zoom * 800) + (moveY/data->zoom);
-    //i will represent the number of iterations
-    int i;
-    //start the iteration process
-    for(i = 0; i < maxIterations; i++)
-    {
-      //remember value of previous iteration
-      oldRe = newRe;
-      oldIm = newIm;
-      //the actual iteration, the real and imaginary part are calculated
-      newRe = oldRe * oldRe - oldIm * oldIm + cRe;
-      newIm = 2 * oldRe * oldIm + cIm;
-      //if the point is outside the circle with radius 2: stop
-      if((newRe * newRe + newIm * newIm) > 2) break;
-    }
-    //use color model conversion to get rainbow palette, make brightness black if maxIterations reached
-   // color = HSVtoRGB(ColorHSV(i % 256, 255, 255 * (i < maxIterations)));
-    //draw the pixel
-    mlx_pixel_put(data->mlx, data->mlx_win, x, y, 0xFFFFFFFF + ((i%28 * 8) * (255 * (i < maxIterations)))); 
-  }
-  //make the Julia Set visible and wait to exit
+void mondelbrot(t_mlx *data)
+{         
+	double newRe, newIm, oldRe, oldIm;
+	int y;
+	int x;
+	int i;
+
+	y = -1;
+	while (++y < 600)
+	{
+		x = -1;
+		while (++x < 800)
+		{
+    		newRe = 1.5 * (x - 400) / (data->zoom * 400) + data->move_x;
+    		newIm = (y - 300) / (data->zoom * 300) + data->move_y;
+    		i = -1;
+			while (++i < data->iter)
+			{
+				oldRe = newRe;
+				oldIm = newIm;
+				newRe = oldRe * oldRe - oldIm * oldIm + data->cre;
+				newIm = 2 * oldRe * oldIm + data->cim;
+				if((newRe * newRe + newIm * newIm) > 2)
+					break;
+			}
+			my_mlx_img(&(data->img), x, y, (i % 256) * 255 * data->color * (i < data->iter));
+		}
+		mlx_put_image_to_window(data->mlx, data->mlx_win, data->img.img, 0, 0);
+	}
 }
 
 int	mouse_key(int event, int x, int y, t_mlx *data)
 {
-	printf("Mou = %d, x = %d, y = %d", event, x, y);
+	printf("KEY = %d\n", event);
 	if (event == 5)
-		data->zoom += 1;
+		data->zoom *= 1.05;
 	if (event == 4 && data->zoom > 0.0001)
-		data->zoom -= 1;
-	if (x < 400)
+		data->zoom *= 0.95;
+	if (event == 1)
+		data->color += 300;
 	mlx_clear_window(data->mlx, data->mlx_win);
-	mondelbrot(0, 0, data);	
+	mondelbrot(data);
 	return (0);
 }
 
 int key_key(int event, t_mlx *data)
 {
-	printf("KEY = %d", event);
+	printf("KEY = %d\n", event);
 	if (event == 53)
-	{
-		mlx_destroy_window(data->mlx, data->mlx_win); // почему сегается?
 		exit(0);
-	}
 	if (event == 126)
-		data->move_g += 0.2;
+		data->move_y += 0.1/data->zoom;
 	if (event == 125) 
-		data->move_g -= 0.2;
+		data->move_y -= 0.1/data->zoom;
 	if (event == 124)
-		data->move_h -= 0.2;
+		data->move_x -= 0.1/data->zoom;
 	if (event == 123)
-		data->move_h += 0.2;
+		data->move_x += 0.1/data->zoom;
+	if (event == 27)
+		data->iter -= 10;
+	if (event == 24)
+		data->iter += 10;
 	mlx_clear_window(data->mlx, data->mlx_win);
-	mondelbrot(data->move_h, data->move_g, data);	
+	mondelbrot(data);	
 	return (0);
 }	
+
+
 
 int	main(void)
 {
 	t_mlx	data;
+	t_pic	img;
+
+	data.img = img;
+	
 	data.mlx = mlx_init();
-	data.mlx_win = mlx_new_window(data.mlx, 800, 600, "Fractol");
+	data.mlx_win = mlx_new_window(data.mlx, 800, 600, "Fractol");	
+	data.img.img = mlx_new_image(data.mlx, 800, 600);
+	data.img.addr = mlx_get_data_addr(data.img.img, &data.img.bits_per_pixel, &data.img.line_length, &data.img.endian);
+	
 	data.zoom = 1.0001;
-	data.move_g = 0;
-	data.move_h = 0;
-	mondelbrot(0, 0, &data);
+	data.move_y = 0;
+	data.move_x = 0;
+	data.color = 3000;
+	data.iter  = 122;
+	data.cre = -0.7;
+	data.cim = 0.27015;
+	mondelbrot(&data);
 	mlx_key_hook(data.mlx_win, key_key, &data);
 	mlx_mouse_hook(data.mlx_win, mouse_key, &data);
 	mlx_loop(data.mlx);
