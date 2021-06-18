@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		24A0859326762893001E9F01 /* main.c in Sources */ = {isa = PBXBuildFile; fileRef = 24A0859226762893001E9F01 /* main.c */; };
+		24CF7594267D276100A20644 /* main copy 2.c in Sources */ = {isa = PBXBuildFile; fileRef = 24CF7593267D276100A20644 /* main copy 2.c */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -25,6 +26,7 @@
 /* Begin PBXFileReference section */
 		24A0858F26762893001E9F01 /* Fractol */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = Fractol; sourceTree = BUILT_PRODUCTS_DIR; };
 		24A0859226762893001E9F01 /* main.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = main.c; sourceTree = "<group>"; wrapsLines = 0; };
+		24CF7593267D276100A20644 /* main copy 2.c */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.c; path = "main copy 2.c"; sourceTree = "<group>"; };
 		24ED73C6267A949100A14637 /* fractol.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = fractol.h; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -59,6 +61,7 @@
 			isa = PBXGroup;
 			children = (
 				24A0859226762893001E9F01 /* main.c */,
+				24CF7593267D276100A20644 /* main copy 2.c */,
 				24ED73C6267A949100A14637 /* fractol.h */,
 			);
 			path = Fractol;
@@ -121,6 +124,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				24CF7594267D276100A20644 /* main copy 2.c in Sources */,
 				24A0859326762893001E9F01 /* main.c in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
