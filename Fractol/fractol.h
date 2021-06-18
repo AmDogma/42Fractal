@@ -3,7 +3,9 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#define MAX(a, b)	(a > b ? a : b)
+#define WIDTH 640
+#define HEIGHT 480
+
 
 typedef struct	s_pic {
 	void	*img;
@@ -15,16 +17,18 @@ typedef struct	s_pic {
 
 typedef	struct s_mlx
 {
-	void			*mlx;
-	void			*mlx_win;
-	double			zoom;
-	double			move_y;
-	double			move_x;
-	double			cre;
-	double 			cim;
-	int				color;
-	id_t			iter;
-	t_pic			img;
+	void	*mlx;
+	void	*mlx_win;
+	double	zoom;
+	double	move_y;
+	double	move_x;
+	double	cre;
+	double 	cim;
+	int		color;
+	int 	act;
+	char	fract;
+	int		iter;
+	t_pic	img;
 }	t_mlx;
 	
 
