@@ -1,5 +1,16 @@
 #include "fractol.h"
 
+void	ft_error(char *message)
+{
+	int	i;
+
+	i = 0;
+	while (message + i && message[i] != '\0')
+		write(1, (message + i++), 1);
+	write(1, "\n", 1);
+	exit (-1);
+}
+
 int	mouse_key(int event, int x, int y, t_mlx *data)
 {
 	if (event == 2 && !data->act)
@@ -13,14 +24,14 @@ int	mouse_key(int event, int x, int y, t_mlx *data)
 	else if (event == 4 && data->zoom > 0.0001)
 		data->zoom *= 0.8;
 	else if (event == 1)
-		data->color += 251;
-	else
+		data->color *= 251;
+	else if (x || y)
 		return (0);
 	fractal(data);
 	return (0);
 }
 
-int key_key(int event, t_mlx *data)
+int	key_key(int event, t_mlx *data)
 {
 	if (event == 53)
 		exit(0);
@@ -44,7 +55,7 @@ int key_key(int event, t_mlx *data)
 
 int	mouse_circle(int x, int y, t_mlx *data)
 {
-	if (x > (WIDTH/2) && y < (HEIGHT / 2))
+	if (x > (WIDTH / 2) && y < (HEIGHT / 2))
 		data->cim += 0.0003 * data->act;
 	else if (y > (HEIGHT / 2) && x > (WIDTH / 2))
 		data->cim -= 0.0003 * data->act;
@@ -52,8 +63,6 @@ int	mouse_circle(int x, int y, t_mlx *data)
 		data->cre -= 0.0003 * data->act;
 	else if (y > (HEIGHT / 2) && x < (WIDTH / 2))
 		data->cre += 0.0003 * data->act;
-	else
-		return(0);
 	fractal(data);
-	return(0);
+	return (0);
 }
