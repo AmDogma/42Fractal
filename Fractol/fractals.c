@@ -102,3 +102,4 @@ void	fractal(t_mlx *data)
 		mlx_put_image_to_window(data->mlx, data->mlx_win, data->img, 0, 0);
 	}
 }
+

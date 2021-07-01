@@ -71,3 +71,4 @@ int	main(int argc, char **argv)
 	mlx_hook(data.mlx_win, 6, 1ul << 6u, mouse_circle, &data);
 	mlx_loop(data.mlx);
 }
+

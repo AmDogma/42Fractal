@@ -66,3 +66,4 @@ int	mouse_circle(int x, int y, t_mlx *data)
 	fractal(data);
 	return (0);
 }
+

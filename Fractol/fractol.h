@@ -35,3 +35,4 @@ int		mouse_key(int event, int x, int y, t_mlx *data);
 void	ft_error(char *message);
 
 #endif
+
